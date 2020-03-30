@@ -1,0 +1,35 @@
+{
+  "name": "unidays-offer-redemption-js",
+  "version": "1.0.0",
+  "description": "This is the JavaScript library for integrating with UNiDAYS for offer reporting. This is to be used for coded integrations.",
+  "main": "unidays-offer-tracking.js",
+  "scripts": {
+    "test": "jest",
+    "pack": "cpx \"src/unidays-offer-tracking.js\" dist && uglifyjs src/unidays-offer-tracking.js -o dist/unidays-offer-tracking.min.js --compress --mangle"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MyUNiDAYS/unidays-offer-redemption-js.git"
+  },
+  "author": "dev.api@myunidays.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MyUNiDAYS/unidays-offer-redemption-js/issues"
+  },
+  "homepage": "https://github.com/MyUNiDAYS/unidays-offer-redemption-js#readme",
+  "dependencies": {
+    "cpx": "^1.5.0",
+    "eval": "^0.1.2",
+    "jest": "^25.1.0",
+    "uglify-js": "^3.8.0"
+  },
+  "jest": {
+    "verbose": true,
+    "setupFiles": [
+      "<rootDir>/__tests__/globalSetup.js"
+    ],
+    "testMatch": [
+      "**/**/__tests__/**/*test.js"
+    ]
+  }
+}
