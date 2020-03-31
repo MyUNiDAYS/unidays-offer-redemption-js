@@ -1,0 +1,47 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: circleci/node:8.0
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Run tests
+          command: npm test
+      - store_artifacts: 
+          path: test-results.xml
+          prefix: tests
+      - store_test_results:
+          path: test-results.xml
+      - persist_to_workspace:
+            root: .
+            paths: .
+  deploy:
+    docker:
+      - image: circleci/node:8.0
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publish package
+          command: npm publish
+
+workflows:
+  version: 2
+  master-push:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: master
+      - deploy:
+          name: deploy
+          requires:
+            - test
