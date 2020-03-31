@@ -1,5 +1,6 @@
 version: 2.1
-
+orbs:
+    aws-cli: circleci/aws-cli@0.1.20
 jobs:
   test:
     docker:
@@ -22,10 +23,19 @@ jobs:
             paths: .
   deploy:
     docker:
-      - image: circleci/node:8.0
+      - image: circleci/python:3-node
     steps:
       - attach_workspace:
           at: .
+      - aws-cli/setup
+      - run:
+          name: Install awscli
+          command: sudo pip install awscli
+      - run:
+          name: Upload source files S3
+          command: |
+            aws s3 cp dist/unidays-offer-tracking.js s3://$CDN_BUCKET_NAME/unidays-offer-tracking.js
+            aws s3 cp dist/unidays-offer-tracking.min.js s3://$CDN_BUCKET_NAME/unidays-offer-tracking.min.js
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
@@ -42,6 +52,7 @@ workflows:
             branches:
               only: master
       - deploy:
+          context: aws-cf-deployment-prod
           name: deploy
           requires:
             - test
