@@ -127,6 +127,9 @@ A URL will be created and called for you within a script element. If successful 
         // UNiDAYS will provide your partnerId.
         var partnerId = '0LTio6iVNaKj861RM9azJQ==';
 
+        // These must be based on the real values of the transaction.
+        var transactionId = 'Order123';
+        var code = 'ABC123';
         var transactionDate = new Date('2020-03-30');
 
         // Create a reference to the UnidaysOfferTracking object, passing in your partnerId, transactionId and code.
