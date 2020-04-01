@@ -171,7 +171,7 @@ A URL will be created and called for you within a script element. If successful 
 
 ```html
 <script src="https://cdn.unidays.world/unidays-offer-tracking.min.js"
-    integrity="sha384-bUvPj5fOb894FDlGsAUHEdp1F9DILx2A5Kiq0abipj7QpjClwoO9iFSWnZvVhn2q"
+    integrity="sha384-4beq1V11zzE/Dxmfg6C/f15NrIqY2+vHIZsUeUZM9VG2Y6TnBX2hJQK2OdaLr/mw"
     crossorigin="anonymous"></script>
 
 <script type='text/javascript'>
