@@ -52,7 +52,6 @@ workflows:
             branches:
               only: master
       - deploy:
-          context: aws-cf-deployment-prod
           name: deploy
           requires:
             - test
