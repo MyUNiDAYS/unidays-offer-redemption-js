@@ -20,19 +20,20 @@ function UnidaysOfferTracking(partnerId, transactionId, code) {
         if(timestamp) {
             var date = new Date(timestamp);
             if(date != 'Invalid Date') {
-                return '&timestamp=' + date.toISOString();
+                return date.toISOString();
             }
             console.error("Timestamp provided is invalid, generating query with no timestamp");
-            return '';
         }
         return '';
     }
 
     this._generateQuery = function (timestamp) {
+        var validatedTimestamp = this._validateTimestamp(timestamp);
+
         return '?partnerId=' + encodeURIComponent(this.partnerId) +
             '&transactionId=' + encodeURIComponent(this.transactionId) +
             '&code=' + encodeURIComponent(this.code) +
-            (timestamp ? this._validateTimestamp(timestamp) : '')
+            (validatedTimestamp.length > 0 ? '&timestamp=' + this._validateTimestamp(timestamp) : '')
     };
 
     this._makeRequest = function (url, tag) {
