@@ -17,14 +17,22 @@ function UnidaysOfferTracking(partnerId, transactionId, code) {
     this.trackingScriptUrl = 'https://api.myunidays.com/offer/tracking/v1.0/redemption/js';
 
     this._validateTimestamp = function(timestamp) {
-        if(timestamp) {
-            var date = new Date(timestamp);
-            if(date != 'Invalid Date') {
-                return date.toISOString();
-            }
-            console.error("Timestamp provided is invalid, generating query with no timestamp");
+
+        if(timestamp === undefined) {
+            return '';
         }
-        return '';
+
+        if(timestamp === null) {
+            console.error("Timestamp provided is invalid, generating query with no timestamp");
+            return '';
+        }
+
+        var date = new Date(timestamp);
+        if(date == 'Invalid Date') {
+            console.error("Timestamp provided is invalid, generating query with no timestamp");
+            return '';
+        }
+        return date.toISOString();
     }
 
     this._generateQuery = function (timestamp) {

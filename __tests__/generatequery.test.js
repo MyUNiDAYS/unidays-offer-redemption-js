@@ -10,6 +10,12 @@ describe('When calling generateQuery', () => {
 		});
 
 		test('With no timestamp set - The query should contain the corresponding parameters', () => {
+			let query = tracking._generateQuery();
+
+			expect(query).toBe('?partnerId=0LTio6iVNaKj861RM9azJQ%3D%3D&transactionId=Order123&code=ABC123');
+		});
+
+		test('With null timestamp set - The query should contain the corresponding parameters', () => {
 			let query = tracking._generateQuery(null);
 
 			expect(query).toBe('?partnerId=0LTio6iVNaKj861RM9azJQ%3D%3D&transactionId=Order123&code=ABC123');

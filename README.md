@@ -45,9 +45,11 @@ Here is a description of all available parameters. Which of these you provide ar
 
 ### Optional parameters
 
-| Parameter | Description | Data Type | Example | Notes |
+| Parameter | Description | Data Type | Example |
 |---|---|---|---|--|
-| timestamp | A timestamp denoting when the transaction occured | String (UNIX Timestamp) | 1577836800000 | Assuming you have a JS `Date` object available, this can be obtained as  follows:`var timestamp = myDate.getTime();`
+| timestamp | A timestamp denoting when the transaction occured | String (UNIX Timestamp) | 1577836800000 |
+
+Note: Assuming you have a JS `Date` object available, a UNIX timestamp can be obtained as follows:`var timestamp = myDate.getTime();`. If you wish to obtain a UNIX timestamp of the current time, use `var timestamp = Date.now();`.
 
 ## Example Usage
 
@@ -62,11 +64,14 @@ This is known as our client-script to server integration
 
 #### Making the call
 
-The method to get the URL to make a client-to-server request with is `createScriptUrl(args)`. To implement this method, you first need to ensure that you have access to all required transaction details.
+The method to get the URL to make a client-to-server request with is `.createScriptUrl()`. To implement this method, you first need to ensure that you have access to all required transaction details.
 
-Once you have access to this transaction information, create a UnidaysOfferTracking object, providing the [mandatory parameters](#mandatory-parameters) as arguments `new UnidaysTracking(partnerId, transactionId, code)` and call `.createScriptUrl(args)` where `args` pertain to the [optional parameters](#optional-parameters).
+Once you have access to this transaction information, create a UnidaysOfferTracking object, providing the [mandatory parameters](#mandatory-parameters) as arguments `new UnidaysTracking(partnerId, transactionId, code)`.
 
-Note: The `args` passed into `createScriptUrl(args)` must all the present and in the correct order, as per the example below. If a value is unknown/inessential, pass `null`.
+
+There are two approaches to creating a script URL - with or without a [timestamp](#optional-parameters) denoting when the transaction occurred. If specifying your own timestamp, use the `.createScriptUrl(timestamp)`.
+
+If opting to not specify a timestamp, call the method like so: `createScriptUrl()`. Using this approach will result in UNiDAYS generating the timestamp for you.
 
 #### Return
 
@@ -85,13 +90,12 @@ A URL will be returned to you which can be used to call the API. If successful a
         // These must be based on the real values of the transaction.
         var transactionId = 'Order123';
         var code = 'ABC123';
-        var transactionDate = new Date('2020-03-30');
 
         // Create a reference to the UnidaysOfferTracking object, passing in your partnerId, transactionId and code.
         var unidays = new UnidaysOfferTracking(partnerId, transactionId, code);
 
-        //get the UNIX timestamp for the date of the transaction
-        var timestamp = transactionDate.getTime();
+        //get the UNIX timestamp for the date of the transaction. In this case, it is the current time
+        var timestamp = Date.now();
 
         // Call the createScriptUrl method to obtain a URL.
         var url = unidays.createScriptUrl(timestamp);
@@ -109,9 +113,11 @@ This will create the client-script URL and perform the request to the UNiDAYS Tr
 
 The method to call the API with a client-script request is `trackingScriptRequest(args)`. To implement this method, you first need to ensure that you have access to all required transaction details.
 
-Once you have access to this transaction information, create a UnidaysOfferTracking object, providing the mandatory parameters as arguments `new UnidaysOfferTracking(partnerId, transactionId, code)` and call `.createScriptUrl(args)` where `args` pertain to the [optional parameters](#optional-parameters).
+Once you have access to this transaction information, create a UnidaysOfferTracking object, providing the mandatory parameters as arguments `new UnidaysOfferTracking(partnerId, transactionId, code)`.
 
-Note: The `args` passed into `createScriptUrl(args)` must all the present and in the correct order, as per the example below. If a value is unknown/inessential, pass `null`.
+There are two approaches to creating a script URL - with or without a [timestamp](#optional-parameters) denoting when the transaction occurred. If specifying your own timestamp, use the `.trackingScriptRequest(timestamp)`.
+
+If opting to not specify a timestamp, call the method like so: `trackingScriptRequest()`. Using this approach will result in UNiDAYS generating the timestamp for you.
 
 #### Return
 
@@ -130,13 +136,12 @@ A URL will be created and called for you within a script element. If successful 
         // These must be based on the real values of the transaction.
         var transactionId = 'Order123';
         var code = 'ABC123';
-        var transactionDate = new Date('2020-03-30');
 
         // Create a reference to the UnidaysOfferTracking object, passing in your partnerId, transactionId and code.
         var unidays = new UnidaysOfferTracking(partnerId, transactionId, code);
 
-        //get the UNIX timestamp for the date of the transaction
-        var timestamp = transactionDate.getTime();
+        //get the UNIX timestamp for the date of the transaction. In this case, it is the current time
+        var timestamp = Date.now();
 
         // Call the trackingScriptRequest method. The method will build the request and perform it to our API within a script element.
         unidays.trackingScriptRequest(timestamp);
@@ -174,7 +179,7 @@ A URL will be created and called for you within a script element. If successful 
 
 ```html
 <script src="https://cdn.unidays.world/unidays-offer-tracking.min.js"
-    integrity="sha384-c1kpQRbbGxbf30VbAkIDmbOufmNhQW8t8lF/cmNCwcfhUrrDkPzTfbX5ymG8XVPv"
+    integrity="sha384-JEmfhKKRbcaBRGEgxbUtzA7pyWctEsPcVdw6QxjbVzmYEYtZsrh4hFRzosin018y"
     crossorigin="anonymous"></script>
 
 <script type='text/javascript'>
@@ -189,8 +194,8 @@ A URL will be created and called for you within a script element. If successful 
         // Create a reference to the UnidaysOfferTracking object, passing in your partnerId, transactionId and code.
         var unidays = new UnidaysOfferTracking(partnerId, transactionId, code);
 
-        //get the UNIX timestamp for the date of the transaction
-        var timestamp = transactionDate.getTime();
+        //get the UNIX timestamp for the date of the transaction. In this case, it is the current time
+        var timestamp = Date.now()
 
         // Call the trackingScriptRequest method. The method will build the request and perform it to our API within a script element.
         unidays.trackingScriptRequest(timestamp);
