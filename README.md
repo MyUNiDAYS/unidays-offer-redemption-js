@@ -47,7 +47,7 @@ Here is a description of all available parameters. Which of these you provide ar
 
 | Parameter | Description | Data Type | Example |
 |---|---|---|---|--|
-| timestamp | A timestamp denoting when the transaction occured | String (UNIX Timestamp) | 1577836800000 |
+| timestamp | A timestamp denoting when the transaction occurred | String (UNIX Timestamp) | 1577836800000 |
 
 Note: Assuming you have a JS `Date` object available, a UNIX timestamp can be obtained as follows:`var timestamp = myDate.getTime();`. If you wish to obtain a UNIX timestamp of the current time, use `var timestamp = Date.now();`.
 
