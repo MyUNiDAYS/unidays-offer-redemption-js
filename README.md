@@ -75,7 +75,33 @@ If opting to not specify a timestamp, call the method like so: `createScriptUrl(
 
 #### Return
 
-A URL will be returned to you which can be used to call the API. If successful a response with a status code of 200 OK will be returned. This will only work with `GET` requests.
+A URL will be returned to you which can be used to call the API.
+
+- If the request to the API is successful, a response with a single whitespace character a status code of 200 OK will be returned.
+- If any of the [mandatory parameters](#mandatory-parameters) contained within the request are missing or malformed, a response with a status code of 400 Bad Request will be returned. The response will contain an array of the erroneous parameters and a statement to describe the problem e.g:
+
+```json
+Response:
+[
+  {
+    "field": "PartnerId",
+    "error": "PartnerId is invalid",
+    "value": "error"
+  },
+  {
+    "field": "Code",
+    "error": "Code is missing",
+    "value": null
+  },
+  {
+    "field": "TransactionId",
+    "error": "TransactionId is missing",
+    "value": null
+  }
+]
+```
+
+Note: This will only work with `GET` requests.
 
 #### Example
 
@@ -121,7 +147,31 @@ If opting to not specify a timestamp, call the method like so: `trackingScriptRe
 
 #### Return
 
-A URL will be created and called for you within a script element. If successful the response should have a status code of 200 OK.
+A URL will be returned to you which can be used to call the API.
+
+- If the request to the API is successful, a response with a single whitespace character a status code of 200 OK will be returned.
+- If any of the [mandatory parameters](#mandatory-parameters) contained within the request are missing or malformed, a response with a status code of 400 Bad Request will be returned. The response will contain an array of the erroneous parameters and a statement to describe the problem e.g:
+
+```json
+Response:
+[
+  {
+    "field": "PartnerId",
+    "error": "PartnerId is invalid",
+    "value": "error"
+  },
+  {
+    "field": "Code",
+    "error": "Code is missing",
+    "value": null
+  },
+  {
+    "field": "TransactionId",
+    "error": "TransactionId is missing",
+    "value": null
+  }
+]
+```
 
 #### Example
 
@@ -173,7 +223,31 @@ Note: Most Tag Manangers (such as Google Tag Manager) requires you to reference 
 
 #### Return
 
-A URL will be created and called for you within a script element. If successful the response should have a status code of 200 OK.
+A URL will be returned to you which can be used to call the API.
+
+- If the request to the API is successful, a response with a single whitespace character a status code of 200 OK will be returned.
+- If any of the [mandatory parameters](#mandatory-parameters) contained within the request are missing or malformed, a response with a status code of 400 Bad Request will be returned. The response will contain an array of the erroneous parameters and a statement to describe the problem e.g:
+
+```json
+Response:
+[
+  {
+    "field": "PartnerId",
+    "error": "PartnerId is invalid",
+    "value": "error"
+  },
+  {
+    "field": "Code",
+    "error": "Code is missing",
+    "value": null
+  },
+  {
+    "field": "TransactionId",
+    "error": "TransactionId is missing",
+    "value": null
+  }
+]
+```
 
 #### Example
 
