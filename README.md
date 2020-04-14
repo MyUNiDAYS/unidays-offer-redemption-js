@@ -33,7 +33,7 @@ This is the JavaScript library for integrating with UNiDAYS. The following docum
 
 ## Parameters
 
-Here is a description of all available parameters. Which of these you provide are dependent on the agreed contract.
+Here is a description of all available parameters.
 
 ### Mandatory parameters
 
@@ -147,7 +147,7 @@ If opting to not specify a timestamp, call the method like so: `trackingScriptRe
 
 #### Return
 
-A URL will be returned to you which can be used to call the API.
+A URL will be built and called for you within a <script> element
 
 - If the request to the API is successful, a response with a single whitespace character a status code of 200 OK will be returned.
 - If any of the [mandatory parameters](#mandatory-parameters) contained within the request are missing or malformed, a response with a status code of 400 Bad Request will be returned. The response will contain an array of the erroneous parameters and a statement to describe the problem e.g:
