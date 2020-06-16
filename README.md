@@ -231,7 +231,7 @@ unidays.trackingScriptRequest();
 
 ```html
 <script src="https://cdn.unidays.world/unidays-offer-tracking.min.js"
-    integrity="sha384-DkOq5vfv7gkXxqwMm/0/l/PbozRqYHTRIc6uy1uN1BRCXPhhIoxb0n88dXuKbwZA"
+    integrity="sha384-JEmfhKKRbcaBRGEgxbUtzA7pyWctEsPcVdw6QxjbVzmYEYtZsrh4hFRzosin018y"
     crossorigin="anonymous"></script>
 
 <script type='text/javascript'>
