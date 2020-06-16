@@ -1,109 +1,104 @@
 <p align="center">
-  <img src="https://assets1.unidays.world/v5/main/assets/images/logo_v003.svg" width="60%"/>
+  <img src="https://assets1.unidays.world/v5/main/assets/images/logo_v003.svg" width="50%"/>
 </p>
 <br/>
 
-# UNiDAYS JavaScript Library
+# Offer Redemption Tracking
 
-This is the JavaScript library for integrating with UNiDAYS. The following documentation provides descriptions of the implementations and examples.
+JavaScript helper-library for tracking Offer Redemption events with UNiDAYS. This should be used for UNiDAYS Offers which provide Codes to UNiDAYS Members. The following documentation describes how to use this helper-library.
 
 ## Contents
 
-[**How to use this code?**](#how-to-use-this-code)
+[Get started](#get-started)
 
-[**Direct Tracking**](#direct-tracking)
-- [Parameters](#parameters)
-- [Example Usage](#example-usage)
-    - [Create Script URL _(returns url for use in a script element)_](#create-script-url)
-    - [Tracking Script Request _(performs the web request asynchronously within a script element)_](#tracking-script-request)
-    - [Tag Managers and CDN _(use this package without including it as a file)_](#tag-managers-and-cdn)
+[Parameters](#parameters)
+
+[Example usages](#example-usages)
+
+- [Creating a UNiDAYS tracking URL to send manually](#create-script-url)
+
+- [Sending an Offer Redemption to UNiDAYS using the library](#tracking-script-request)
+
+- [Retrieve the UNiDAYS library via our CDN (with a tag manager example usage)](#cdn-and-tag-managers)
+
+[API request/reponse](#api-request/response)
 
 [Unit Tests](#unit-tests)
 
-[**Contributing**](#contributing)
+[Contributing](#contributing)
 
-## How to use this code
+----
 
-- Download the contents of `dist/`, choosing between a regular or minified version of the script.
-- _Alternatively_, pull the package from [npm](https://www.npmjs.com/package/unidays-offer-redemption-js), choosing between a regular of minified version of the script within the created modules directory.
-- Include this on the post-payment/order-success page of your web project.
-- See the example usage section for the type of call you intend to use. Each of these contains an example.
+### Get started
 
-## Direct Tracking
+1. - Download the contents of `dist/`, choosing between a regular or minified version of the script.
+    - _Alternatively_, pull the package from [npm](https://www.npmjs.com/package/unidays-offer-redemption-js), choosing between a regular or minified version of the script within the created modules directory.
+
+2. Include this on the post-payment/order-success page of your web project / e-commerce store.
+
+3. See the [example usages](#example-usages) section below in order to choose your preferred way to begin tracking your UNiDAYS Offer Redemptions.
+
+**Note: Only transactions associated with UNiDAYS Offers should be tracked to the UNiDAYS API.**
+
+----
 
 ## Parameters
 
-Here is a description of all available parameters.
+A description of what information is required to create a UNiDAYS Offer Redemption event.
 
-### Mandatory parameters
+### Mandatory
 
 | Parameter | Description | Data Type | Example |
 |---|---|---|---|
-| partnerId | Your partnerId as provided by UNiDAYS. If you operate in multiple geographic regions you _may_ have a different partnerId for each region | Base64 Encoded Guid | XaxptFh0sK8Co6pI== |
-| transactionId | A unique ID for the transaction in your system | String | Order123 |
-| code | The UNiDAYS discount code used | String | ABC123 |
+| partnerId | Your partnerId as provided by UNiDAYS. | base64-encoded guid | XaxptFh0sK8Co6pI== |
+| transactionId | The unique ID for the transaction in your system | string | order123 |
+| code | The UNiDAYS Offer Code redeemed in the transaction | string | UNI-C4RLB45KN |
 
-### Optional parameters
+### Optional
 
 | Parameter | Description | Data Type | Example |
-|---|---|---|---|--|
-| timestamp | A timestamp denoting when the transaction occurred | String (UNIX Timestamp) | 1577836800000 |
+|---|---|---|---|
+| timestamp | A timestamp denoting when the transaction occurred | string (unix timestamp) | 1577836800000 |
 
-Note: Assuming you have a JS `Date` object available, a UNIX timestamp can be obtained as follows:`var timestamp = myDate.getTime();`. If you wish to obtain a UNIX timestamp of the current time, use `var timestamp = Date.now();`.
+Note: If you have a `Date` object available for when the transaction occured, a UNIX timestamp can be obtained as follows: `var unixTimestamp = myDateObject.getTime();`. Alternatively, if you wish to obtain a UNIX timestamp of the current time, you can use: `var unixTimestamp = Date.now();`.
 
-## Example Usage
+## Example usages
 
-Below are examples of implementing the different types of integrations. These examples cover coded integrations and serve as a guideline for implementation.
+### Create script URL
 
-- [Create Script URL _(returns url for use in a script element)_](#create-script-url)
-- [Tracking Script Request _(performs the web request asynchronously within a script element)_](#tracking-script-request)
+This function should be used if you intend to make the request to the UNiDAYS API within a `<script>` element, or by using your own client. Using this function correctly will return a complete URL which can be used to track Offer Redemption events with UNiDAYS.
 
-### Create Script URL
+#### Using the createScriptUrl() function
 
-This is known as our client-script to server integration
+The function to get the URL to make a client-to-server request with is `.createScriptUrl()`. To implement this function, you first need to ensure that you have access to all required [transaction information](#parameters).
 
-#### Making the call
+Once you have access to this transaction information, create a `UnidaysOfferTracking` object, providing the [mandatory parameters](#mandatory-parameters) as arguments.
 
-The method to get the URL to make a client-to-server request with is `.createScriptUrl()`. To implement this method, you first need to ensure that you have access to all required transaction details.
+e.g.
 
-Once you have access to this transaction information, create a UnidaysOfferTracking object, providing the [mandatory parameters](#mandatory-parameters) as arguments `new UnidaysTracking(partnerId, transactionId, code)`.
-
-
-There are two approaches to creating a script URL - with or without a [timestamp](#optional-parameters) denoting when the transaction occurred. If specifying your own timestamp, use the `.createScriptUrl(timestamp)`.
-
-If opting to not specify a timestamp, call the method like so: `createScriptUrl()`. Using this approach will result in UNiDAYS generating the timestamp for you.
-
-#### Return
-
-A URL will be returned to you which can be used to call the API.
-
-- If the request to the API is successful, a response with a single whitespace character a status code of 200 OK will be returned.
-- If any of the [mandatory parameters](#mandatory-parameters) contained within the request are missing or malformed, a response with a status code of 400 Bad Request will be returned. The response will contain an array of the erroneous parameters and a statement to describe the problem e.g:
-
-```json
-Response:
-[
-  {
-    "field": "PartnerId",
-    "error": "PartnerId is invalid",
-    "value": "error"
-  },
-  {
-    "field": "Code",
-    "error": "Code is missing",
-    "value": null
-  },
-  {
-    "field": "TransactionId",
-    "error": "TransactionId is missing",
-    "value": null
-  }
-]
+```javascript
+var unidays = new UnidaysOfferTracking(partnerId, transactionId, code);
 ```
 
-Note: This will only work with `GET` requests.
+There are two approaches to creating a script URL - with or without a [timestamp](#optional-parameters) denoting when the transaction occurred.
 
-#### Example
+To specify your own timestamp, simply include your UNIX timestamp as an argument for the function call.
+
+e.g.
+
+```javascript
+var url = unidays.createScriptUrl(timestamp);
+```
+
+To let the UNiDAYS helper-library generate a timestamp for you, simply omit any arguments in the function call.
+
+e.g.
+
+```javascript
+var url = unidays.createScriptUrl();
+```
+
+#### Full usage example
 
 ```html
 <script type='text/javascript' src='unidays-offer-tracking.js'></script>
@@ -120,60 +115,54 @@ Note: This will only work with `GET` requests.
         // Create a reference to the UnidaysOfferTracking object, passing in your partnerId, transactionId and code.
         var unidays = new UnidaysOfferTracking(partnerId, transactionId, code);
 
-        //get the UNIX timestamp for the date of the transaction. In this case, it is the current time
+        // Get the UNIX timestamp for the date of the transaction. In this case, it is the current time.
         var timestamp = Date.now();
 
-        // Call the createScriptUrl method to obtain a URL.
+        // Call the createScriptUrl function to obtain a URL.
         var url = unidays.createScriptUrl(timestamp);
 
-        // You now have a URL which can be used within a script element to call the API.
+        // You now have a URL which can be used within a <script> element to call the UNiDAYS API.
     }(window));
 </script>
 ```
 
-### Tracking Script Request
+----
 
-This will create the client-script URL and perform the request to the UNiDAYS Tracking API for you.
+### Tracking script request
 
-#### Making the call
+This function should be used if you would prefer for the UNiDAYS helper-library to track your Offer Redemption events for you. Using this function correctly will build the Offer Redemption event and asychronously call the UNiDAYS API to track the event.
 
-The method to call the API with a client-script request is `trackingScriptRequest(args)`. To implement this method, you first need to ensure that you have access to all required transaction details.
+#### Using the trackingScriptRequest() function
 
-Once you have access to this transaction information, create a UnidaysOfferTracking object, providing the mandatory parameters as arguments `new UnidaysOfferTracking(partnerId, transactionId, code)`.
+The method to call the API with a client-script request is `trackingScriptRequest()`. To implement this function, you first need to ensure that you have access to all required [transaction information](#parameters).
 
-There are two approaches to creating a script URL - with or without a [timestamp](#optional-parameters) denoting when the transaction occurred. If specifying your own timestamp, use the `.trackingScriptRequest(timestamp)`.
+Once you have access to this transaction information, create a `UnidaysOfferTracking` object, providing the [mandatory parameters](#mandatory-parameters) as arguments.
 
-If opting to not specify a timestamp, call the method like so: `trackingScriptRequest()`. Using this approach will result in UNiDAYS generating the timestamp for you.
+e.g.
 
-#### Return
-
-A URL will be built and called for you within a <script> element
-
-- If the request to the API is successful, a response with a single whitespace character a status code of 200 OK will be returned.
-- If any of the [mandatory parameters](#mandatory-parameters) contained within the request are missing or malformed, a response with a status code of 400 Bad Request will be returned. The response will contain an array of the erroneous parameters and a statement to describe the problem e.g:
-
-```json
-Response:
-[
-  {
-    "field": "PartnerId",
-    "error": "PartnerId is invalid",
-    "value": "error"
-  },
-  {
-    "field": "Code",
-    "error": "Code is missing",
-    "value": null
-  },
-  {
-    "field": "TransactionId",
-    "error": "TransactionId is missing",
-    "value": null
-  }
-]
+```javascript
+var unidays = new UnidaysOfferTracking(partnerId, transactionId, code);
 ```
 
-#### Example
+There are two approaches to performation a request to the API - with or without a [timestamp](#optional-parameters) denoting when the transaction occurred.
+
+To specify your own timestamp, simply include your UNIX timestamp as an argument for the function call.
+
+e.g.
+
+```javascript
+unidays.trackingScriptRequest(timestamp);
+```
+
+To let the UNiDAYS helper-library generate a timestamp for you, simply omit any arguments in the function call.
+
+e.g.
+
+```javascript
+unidays.trackingScriptRequest();
+```
+
+#### Full usage example
 
 ```html
 <script type='text/javascript' src='unidays-offer-tracking.js'></script>
@@ -193,67 +182,56 @@ Response:
         //get the UNIX timestamp for the date of the transaction. In this case, it is the current time
         var timestamp = Date.now();
 
-        // Call the trackingScriptRequest method. The method will build the request and perform it to our API within a script element.
+        // Call the trackingScriptRequest function.
+        // The function will build and perform the request to the API asychronously within a script element.
         unidays.trackingScriptRequest(timestamp);
     }(window));
 </script>
 ```
 
-### Tag Managers and CDN
+----
 
-This will demonstrate how to use this Javascript helper within a Tag (e.g. Google Tag Manager or other similar CMS) and/or how to pull in the UNiDAYS Javascript client helper through our CDN.
+### CDN and tag managers
+
+This section describes how to use the UNiDAYS CDN to pull in the helper-library into your project/application, as an alternative to installing it. This includes an example of implementation with a tag manager (such as Google Tag Manager).
 
 Note: We have included the SHA384 in the example below; file integrity is guaranteed, so you can be assured that you are always pulling in the official UNiDAYS JavaScript helper.
 
-**However**, if your Tag Manager or CMS does not support the `integrity` attribute within `<script>` elements, simply remove the `integrity` and `crossorigin` attributes.
+#### Using the helper-library
+
+The method to call the API with a client-script request is `trackingScriptRequest()`. To implement this function, you first need to ensure that you have access to all required [transaction information](#parameters). In Google Tag Manager, for example, all of the required transaction information should be already available within the Data Layer for your online store. If any required information is not already available within the Data Layer for your online store, please contact your Development team and ensure this data is added.
+
+Once you have access to this transaction information, create a `UnidaysOfferTracking` object, providing the [mandatory parameters](#mandatory-parameters) as arguments.
 
 e.g.
 
-```html
-<script src="https://cdn.unidays.world/unidays-offer-tracking.min.js"></script>
+```javascript
+var unidays = new UnidaysOfferTracking(partnerId, transactionId, code);
 ```
 
-#### Making the call
+There are two approaches to performation a request to the API - with or without a [timestamp](#optional-parameters) denoting when the transaction occurred.
 
-The method to call the API with a client-script request is `trackingScriptRequest()`. To implement this method, you first need to ensure that you have access to all required transaction details. In Google Tag Manager, for example, all of the required transaction information should be already available within the Data Layer for your online store. If any required information is not already available within the Data Layer for your online store, please contact your Development team and ensure this information has been added.
+To specify your own timestamp, simply include your UNIX timestamp as an argument for the function call.
 
-Once you have access to this transaction information, create a UnidaysTracking object, providing the mandatory parameters as arguments `new UnidaysTracking(partnerId, transactionId, code)` and call `.trackingScriptRequest()`.
+e.g.
 
-Note: Most Tag Manangers (such as Google Tag Manager) requires you to reference Data Layer / User-Defined variables using `{{This Syntax}}` or something similar. If you are unsure, please contact your Development team associated with the Tag Manager platform you use.
-
-#### Return
-
-A URL will be returned to you which can be used to call the API.
-
-- If the request to the API is successful, a response with a single whitespace character a status code of 200 OK will be returned.
-- If any of the [mandatory parameters](#mandatory-parameters) contained within the request are missing or malformed, a response with a status code of 400 Bad Request will be returned. The response will contain an array of the erroneous parameters and a statement to describe the problem e.g:
-
-```json
-Response:
-[
-  {
-    "field": "PartnerId",
-    "error": "PartnerId is invalid",
-    "value": "error"
-  },
-  {
-    "field": "Code",
-    "error": "Code is missing",
-    "value": null
-  },
-  {
-    "field": "TransactionId",
-    "error": "TransactionId is missing",
-    "value": null
-  }
-]
+```javascript
+unidays.trackingScriptRequest(timestamp);
 ```
 
-#### Example
+To let the UNiDAYS helper-library generate a timestamp for you, simply omit any arguments in the function call.
+
+e.g.
+
+```javascript
+unidays.trackingScriptRequest();
+```
+
+#### Full usage example
 
 ```html
 <script src="https://cdn.unidays.world/unidays-offer-tracking.min.js"
-    integrity="sha384-JEmfhKKRbcaBRGEgxbUtzA7pyWctEsPcVdw6QxjbVzmYEYtZsrh4hFRzosin018y"
+    integrity="sha384-DkOq5vfv7gkXxqwMm/0/l/PbozRqYHTRIc6uy1uN1BRCXPhhIoxb0n88dXuKbwZA"
     crossorigin="anonymous"></script>
 
 <script type='text/javascript'>
@@ -277,17 +255,63 @@ Response:
 </script>
 ```
 
-## Unit Tests
+Notes:
+
+- Most Tag Manangers (such as Google Tag Manager) requires you to reference Data Layer / User-Defined variables using `{{This Syntax}}` or something similar. If you are unsure, please contact your Development team associated with the Tag Manager platform you use.
+
+- If your Tag Manager or CMS does not support the `integrity` attribute within `<script>` elements, simply remove the `integrity` and `crossorigin` attributes.
+
+e.g.
+
+```html
+<script src="https://cdn.unidays.world/unidays-offer-tracking.min.js"></script>
+```
+
+----
+
+## API request/response
+
+After making a request to the UNiDAYS API, you will receive either a 200 or 400 HTTP status code in the response.
+
+**200 OK** - The request to the UNiDAYS API was successful and we have begun processing your event. You can also expect a single whitespace character returned in the response body.
+
+**400 Bad Request** - The request contained missing or badly-formed parameters. You can also expect an array of details about the parameters which have caused problems in the response body (see below).
+
+### Error details
+
+```json
+[
+  {
+    "field": "PartnerId",
+    "error": "PartnerId is invalid",
+    "value": "invalidpartnerid"
+  },
+  {
+    "field": "Code",
+    "error": "Code is missing",
+    "value": null
+  },
+  {
+    "field": "TransactionId",
+    "error": "TransactionId is missing",
+    "value": ""
+  }
+]
+```
+
+----
+
+### Unit tests
 
 We use [Jest](https://jestjs.io/) for our Unit Tests
 
-### Installation
+#### Installation
 
-To install the Jest test-runner and all dependencies for this project, run `npm install` from your favourite terminal within the project directory.
+To install the Jest test-runner and all dependencies for this project, run `npm install` from your terminal at the root of the project directory.
 
-### Running the tests
+#### Running the tests
 
-To run the tests, run `npm test` from your favourite terminal within the project directory.
+To run the tests, run `npm test` from your terminal at the root of the project directory.
 
 ## Contributing
 
