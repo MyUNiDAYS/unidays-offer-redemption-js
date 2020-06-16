@@ -19,9 +19,9 @@
   "homepage": "https://github.com/MyUNiDAYS/unidays-offer-redemption-js#readme",
   "dependencies": {
     "cpx": "^1.5.0",
-    "eval": "^0.1.2",
-    "jest": "^25.1.0",
-    "uglify-js": "^3.8.0"
+    "eval": "^0.1.4",
+    "jest": "^25.5.4",
+    "uglify-js": "^3.9.4"
   },
   "jest": {
     "verbose": true,
