@@ -4,7 +4,7 @@ orbs:
 jobs:
   test:
     docker:
-      - image: circleci/node:8.0
+      - image: circleci/node:erbium
     steps:
       - checkout
       - run:
@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Run tests
           command: npm test
-      - store_artifacts: 
+      - store_artifacts:
           path: test-results.xml
           prefix: tests
       - store_test_results:
