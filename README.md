@@ -72,7 +72,7 @@ This function should be used if you intend to make the request to the UNiDAYS AP
 
 The function to get the URL to make a client-to-server request with is `.createScriptUrl()`. To implement this function, you first need to ensure that you have access to all required [transaction information](#parameters).
 
-Once you have access to this transaction information, create a `UnidaysOfferTracking` object, providing the [mandatory parameters](#mandatory-parameters) as arguments.
+Once you have access to this transaction information, create a `UnidaysOfferTracking` object, providing the [mandatory parameters](#mandatory) as arguments.
 
 e.g.
 
@@ -80,7 +80,7 @@ e.g.
 var unidays = new UnidaysOfferTracking(partnerId, transactionId, code);
 ```
 
-There are two approaches to creating a script URL - with or without a [timestamp](#optional-parameters) denoting when the transaction occurred.
+There are two approaches to creating a script URL - with or without a [timestamp](#optional) denoting when the transaction occurred.
 
 To specify your own timestamp, simply include your UNIX timestamp as an argument for the function call.
 
@@ -136,7 +136,7 @@ This function should be used if you would prefer for the UNiDAYS helper-library 
 
 The method to call the API with a client-script request is `trackingScriptRequest()`. To implement this function, you first need to ensure that you have access to all required [transaction information](#parameters).
 
-Once you have access to this transaction information, create a `UnidaysOfferTracking` object, providing the [mandatory parameters](#mandatory-parameters) as arguments.
+Once you have access to this transaction information, create a `UnidaysOfferTracking` object, providing the [mandatory parameters](#mandatory) as arguments.
 
 e.g.
 
@@ -144,7 +144,7 @@ e.g.
 var unidays = new UnidaysOfferTracking(partnerId, transactionId, code);
 ```
 
-There are two approaches to performation a request to the API - with or without a [timestamp](#optional-parameters) denoting when the transaction occurred.
+There are two approaches to performation a request to the API - with or without a [timestamp](#optional) denoting when the transaction occurred.
 
 To specify your own timestamp, simply include your UNIX timestamp as an argument for the function call.
 
@@ -201,7 +201,7 @@ Note: We have included the SHA384 in the example below; file integrity is guaran
 
 The method to call the API with a client-script request is `trackingScriptRequest()`. To implement this function, you first need to ensure that you have access to all required [transaction information](#parameters). In Google Tag Manager, for example, all of the required transaction information should be already available within the Data Layer for your online store. If any required information is not already available within the Data Layer for your online store, please contact your Development team and ensure this data is added.
 
-Once you have access to this transaction information, create a `UnidaysOfferTracking` object, providing the [mandatory parameters](#mandatory-parameters) as arguments.
+Once you have access to this transaction information, create a `UnidaysOfferTracking` object, providing the [mandatory parameters](#mandatory) as arguments.
 
 e.g.
 
@@ -209,7 +209,7 @@ e.g.
 var unidays = new UnidaysOfferTracking(partnerId, transactionId, code);
 ```
 
-There are two approaches to performation a request to the API - with or without a [timestamp](#optional-parameters) denoting when the transaction occurred.
+There are two approaches to performation a request to the API - with or without a [timestamp](#optional) denoting when the transaction occurred.
 
 To specify your own timestamp, simply include your UNIX timestamp as an argument for the function call.
 
