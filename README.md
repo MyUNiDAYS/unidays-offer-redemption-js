@@ -3,6 +3,9 @@
 </p>
 <br/>
 
+[![npm version](https://badge.fury.io/js/unidays-offer-redemption-js.svg)](https://badge.fury.io/js/unidays-offer-redemption-js) [![CircleCI](https://circleci.com/gh/MyUNiDAYS/unidays-offer-redemption-js.svg?style=svg)](https://circleci.com/gh/MyUNiDAYS/unidays-offer-redemption-js/tree/master)
+
+
 # Offer Redemption Tracking
 
 JavaScript helper-library for tracking Offer Redemption events with UNiDAYS. This should be used for UNiDAYS Offers which provide Codes to UNiDAYS Members. The following documentation describes how to use this helper-library.

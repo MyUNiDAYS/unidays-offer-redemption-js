@@ -9,15 +9,18 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: npm install
+          command: |
+            npm install
+            npm install jest-junit 
       - run:
           name: Run tests
-          command: npm test
+          command: npm test -- --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUPUT_DIR: ./reports/junit
       - store_artifacts:
-          path: test-results.xml
-          prefix: tests
+          path: ./reports/junit
       - store_test_results:
-          path: test-results.xml
+          path: ./reports/junit
       - persist_to_workspace:
             root: .
             paths: .
