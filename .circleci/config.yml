@@ -48,6 +48,13 @@ jobs:
 
 workflows:
   version: 2
+  branch-push:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore: master
+
   master-push:
     jobs:
       - test:
