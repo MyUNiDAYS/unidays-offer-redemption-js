@@ -1,6 +1,6 @@
 {
   "name": "unidays-offer-redemption-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is the JavaScript library for integrating with UNiDAYS for offer reporting. This is to be used for coded integrations.",
   "main": "unidays-offer-tracking.js",
   "scripts": {

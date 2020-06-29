@@ -16,7 +16,7 @@ jobs:
           name: Run tests
           command: npm test -- --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
-            JEST_JUNIT_OUPUT_DIR: ./reports/junit
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit
       - store_artifacts:
           path: ./reports/junit
       - store_test_results:
@@ -48,6 +48,13 @@ jobs:
 
 workflows:
   version: 2
+  branch-push:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore: master
+
   master-push:
     jobs:
       - test:
